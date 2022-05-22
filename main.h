@@ -26,7 +26,7 @@ char *print_p(va_list list);
 char *print_unsigned_int(va_list list);
 char *print_octal(va_list list);
 char *print_hexadecimal(va_list list);
-char *print_hex_low(va_list list);
+char *print_hexadecimal_low(va_list list);
 char *print_reverse(va_list list);
 void *string_rev(char *s);
 char *print_binary(va_list list);
