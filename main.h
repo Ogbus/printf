@@ -1,37 +1,78 @@
 #ifndef MAIN_H
 #define MAIN_H
-#include <stdarg.h>
-#include <stdio.h>
+
 #include <stdlib.h>
+#include <stdarg.h>
+
 /**
- * struct print_flags - Struct
- *
- * @c: The operator
- * @f: The function associated
+ * struct flags - struct containing flags to "turn on"
+ * when a flag specifier is passed to _printf()
+ * @plus: flag for the '+' character
+ * @space: flag for the ' ' character
+ * @hash: flag for the '#' character
  */
-struct print_flags
+typedef struct flags
 {
-char *c;
-char *(*f)(va_list list);
-};
-typedef struct print_flags flags;
+    int plus;
+    int space;
+    int hash;
+} flags_t;
+
+/**
+ * struct printHandler - struct to choose the right function depending
+ * on the format specifier passed to _printf()
+ * @c: format specifier
+ * @f: pointer to the correct printing function
+ */
+typedef struct printHandler
+{
+    char c;
+    int (*f)(va_list ap, flags_t *f);
+} ph;
+
+/* print_nums */
+int print_num_int(va_list l, flags_t *f);
+void print_numbers(int n);
+int print_unsigned_int(va_list l, flags_t *f);
+int count_dig(int i);
+
+/* print_bases */
+int print_hexadecimal(va_list l, flags_t *f);
+int print_hex_low(va_list l, flags_t *f);
+int print_bin(va_list l, flags_t *f);
+int print_oct(va_list l, flags_t *f);
+
+/* converter */
+char *converts(unsigned long int num, int base, int lowercase);
+
+/* _printf */
 int _printf(const char *format, ...);
-int str_len(char *s);
-char *str_cat(char *dest, char *src, int n);
-char *print_char(va_list list);
-char *print_string(va_list list);
-char *print_int(va_list list);
-char *print_d(va_list list);
-char *print_p(va_list list);
-char *print_unsigned_int(va_list list);
-char *print_octal(va_list list);
-char *print_hexadecimal(va_list list);
-char *print_hexadecimal_low(va_list list);
-char *print_reverse(va_list list);
-void *string_rev(char *s);
-char *print_binary(va_list list);
-char *rot13(va_list list);
-int return_positions(const char *s, int n);
-int num_len(int n);
-char *str_cpy(char *dest, char *src);
+
+/* get_print */
+int (*get_prints(char s))(va_list, flags_t *);
+
+/* get_flag */
+int get_flags(char s, flags_t *f);
+
+/* print_alpha */
+int print_str(va_list l, flags_t *f);
+int print_c(va_list l, flags_t *f);
+
+/* write_funcs */
+int _putchar(char c);
+int _puts(char *str);
+
+/* print_custom */
+int print_rot13(va_list l, flags_t *f);
+int print_reverse(va_list l, flags_t *f);
+int print_bigS_non(va_list l, flags_t *f);
+
+/* print_address */
+int print_address_int(va_list l, flags_t *f);
+
+/* print_percent */
+int print_percentage(va_list l, flags_t *f);
+
+
+
 #endif
